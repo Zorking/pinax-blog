@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from pinax.images.models import ImageSet
 
+from mdeditor.fields import MDTextFormField
+
 from .conf import settings
 from .models import Post, Revision, Section
 from .signals import post_published
@@ -90,10 +92,7 @@ class AdminPostForm(PostFormMixin, forms.ModelForm):
         label=_("Teaser"),
         widget=forms.Textarea(attrs={"style": "width: 80%;"}),
     )
-    content = forms.CharField(
-        label=_("Content"),
-        widget=forms.Textarea(attrs={"style": "width: 80%; height: 300px;"})
-    )
+    content = MDTextFormField()
     description = forms.CharField(
         label=_("Description"),
         widget=forms.Textarea(attrs={"style": "width: 80%;"}),
@@ -119,7 +118,7 @@ class PostForm(PostFormMixin, forms.ModelForm):
     markup_choice = "markdown"
 
     teaser = forms.CharField(widget=forms.Textarea())
-    content = forms.CharField(widget=forms.Textarea())
+    content = MDTextFormField()
 
     class Meta:
         model = Post
